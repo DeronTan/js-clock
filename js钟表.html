@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>钟表</title>
+    <style>
+        body{
+            background: radial-gradient(circle at 50% 30%,snow,honeydew);
+        }
+        #bigr{
+            width: 420px;
+            height: 420px;
+            border: 30px solid #1b6d85;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            border-radius: 50%;
+        }
+        .clock{
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            border-radius: 50%;
+        }
+        p{height:50px;width:80px;position: absolute;  top:60%;left: 40%;letter-spacing: 2px;font-size: 18px;color: #2a3c54}
+        img{width: 100%}
+    </style>
+</head>
+<body>
+<div id="bigr">
+    <div class="clock">
+        <p><img src="img/logo.png"></p>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script>
+        var clock=document.getElementsByClassName("clock")[0];
+        draw();
+        var time=new Date();
+        var h=drawpointer(8,80,"#352f4d",time.getHours()*30+time.getMinutes()*6/12);
+        var m=drawpointer(5,120,"#352f4d",time.getMinutes()*6);
+        var s=drawpointer(3,160,"red",time.getSeconds()*6);
+        setInterval(function(){
+            var time=new Date();
+            h.style.transform="rotate("+(time.getHours()*30+time.getMinutes()*6/12)+"deg)";
+            m.style.transform="rotate("+time.getMinutes()*6+"deg)";
+            s.style.transform="rotate("+time.getSeconds()*6+"deg)"
+        },1000);
+        function draw(){
+            for(var i=0;i<60;i++){
+                var newdiv=document.createElement("div");
+                var m,h,color;
+                if(i%5==0){
+                    m=8;
+                    h=20;
+                    color="#000";
+                }else{
+                    m=6;
+                    h=15;
+                    color="grey"
+                }
+                newdiv.style.cssText="width:"+m+"px;height:"+h+"px;background:"+color+";position:absolute;left:0;top:0;transform:translate("+(400-m)/2+"px,0) rotate("+i*6+"deg);transform-origin:"+m/2+"px 200px"
+                clock.appendChild(newdiv);
+            }
+        }
+
+
+        function drawpointer(w,h,b,d){
+            var newdiv=document.createElement("div");
+//                中间的圆
+            var newd=document.createElement("div");
+            newd.style.cssText="width:20px;height:20px;border-radius:50%;background: radial-gradient(circle at 50% 50%,#352f4d,grey);position:absolute;left:"+(400-20)/2+"px;top:"+(400-20)/2+"px;"
+            newdiv.style.cssText="width:"+w+"px;height:"+h+"px;position:absolute;left:"+(400-w)/2+"px;top:"+(200-h)+"px;background:"+b+";transform:rotate("+d+"deg);transform-origin:center bottom;";
+            clock.appendChild(newdiv);
+            clock.appendChild(newd);
+            return newdiv;
+        }
+</script>
